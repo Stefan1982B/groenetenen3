@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang='nl' xmlns:th='http://www.thymeleaf.org'>
+<html lang='nl' xmlns:th='http://www.thymeleaf.org' xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
 <head th:fragment='head(title)'>
 <meta charset='UTF-8'>
 <link rel='icon' th:href='@{/images/groenetenen.ico}'
@@ -26,6 +26,14 @@
 				<ul>
 					<li><a th:href='@{/offertes/toevoegen}'>Toevoegen</a></li>
 				</ul></li>
+			<li><a th:href='@{?locale=nl_BE}'>Nederlands</a></li>
+			<li><a th:href='@{?locale=fr_BE}'>Français</a></li>
+			<li><a th:href='@{/login}'>Aanmelden</a></li>
+			<li>
+				<form method='post' th:action='@{/logout}' id='logoutform'>
+					<span sec:authentication='name'></span> <input type='submit' value='Afmelden' id='logoutbutton'>
+				</form>
+			</li>
 		</ul>
 	</nav>
 </body>

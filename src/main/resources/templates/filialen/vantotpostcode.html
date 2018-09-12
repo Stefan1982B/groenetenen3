@@ -13,12 +13,19 @@
 			th:errors='*{tot}'></span> <input th:field='*{tot}' type='number'
 			required min='1000' max='9999'>
 		</label> <input type='submit' value='Zoeken'>
+		<div th:if='${#fields.hasGlobalErrors()}'>
+			<div class='fout' th:each='err : ${#fields.globalErrors()}'
+				th:text='${err}'></div>
+		</div>
 	</form>
 	<div th:each='filiaal:${filialen}'>
 		<h2 th:text='${filiaal.naam}'></h2>
 		<div th:text='|${filiaal.adres.straat} ${filiaal.adres.huisNr}|'></div>
 		<div th:text='|${filiaal.adres.postcode} ${filiaal.adres.gemeente}|'></div>
-		<div><a th:href= '@{/filialen/{id}(id=${filiaal.id})}' th:text = "Detail"></a></div>
+		<div th:text='#{filiaalVan(${filiaal.id},${aantalFilialen})}'></div>
+		<div>
+			<a th:href='@{/filialen/{id}(id=${filiaal.id})}' th:text="Detail"></a>
+		</div>
 	</div>
 </body>
 </html>

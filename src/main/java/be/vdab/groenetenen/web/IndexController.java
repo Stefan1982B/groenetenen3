@@ -15,11 +15,11 @@ class IndexController {
 	private String begroeting() {
 		int uur = LocalDateTime.now().getHour();
 		if (uur < 12) {
-			return "goede Morgen";
+			return "goedeMorgen";
 		} else if (uur >= 12 && uur < 18) {
-			return "Goede Middag";
+			return "goedeMiddag";
 		} else {
-			return "goede avond";
+			return "goedeAvond";
 		}
 	}
 

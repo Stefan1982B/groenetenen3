@@ -17,9 +17,18 @@
 		<dd th:text="${filiaal.hoofdFiliaal ? 'Hoofdfiliaal' : 'Bijfiliaal'}">
 		</dd>
 		<dt>Waarde gebouw</dt>
-		<dd th:text='${{filiaal.waardeGebouw}}'></dd>
+		<dd>
+			<span th:text='${{filiaal.waardeGebouw}}'></span> <a
+				th:href='@{/euro/{euro}/naardollar(euro=${filiaal.waardeGebouw})}'>in
+				$</a>
+		</dd>
 		<dt>In gebruikname</dt>
 		<dd th:text='${{filiaal.inGebruikName}}'></dd>
+
 	</dl>
+	<form th:action='@{/filialen/{id}/afschrijven(id=${filiaal.id})}'
+		method='post'>
+		<input type='submit' value='Afschrijven'>
+	</form>
 </body>
 </html>
