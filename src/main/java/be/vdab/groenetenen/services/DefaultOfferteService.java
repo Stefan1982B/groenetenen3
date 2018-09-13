@@ -35,7 +35,7 @@ class DefaultOfferteService implements OfferteService {
 	public void create(Offerte offerte, String offertesURL) {
 		offerteRepository.save(offerte);
 		OfferteEnOffertesURL offerteEnOffertesURL = new OfferteEnOffertesURL(offerte, offertesURL);
-		jmsTemplate.convertAndSend(nieuweOfferteQueue, offerteEnOffertesURL);
+	jmsTemplate.convertAndSend(nieuweOfferteQueue, offerteEnOffertesURL);
 
 	}
 
