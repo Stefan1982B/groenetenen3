@@ -1,10 +1,10 @@
-//package be.vdab.groenetenen.messaging;
-//
-//import org.springframework.jms.annotation.JmsListener;
-//import org.springframework.stereotype.Component;
-//
-//import be.vdab.groenetenen.mail.MailSender;
-//
+package be.vdab.groenetenen.messaging;
+
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
+
+import be.vdab.groenetenen.mail.MailSender;
+
 //@Component
 //public class NieuweOfferteListener {
 //	private final MailSender mailSender;
@@ -19,3 +19,5 @@
 //		mailSender.nieuweOfferte(offerteEnOffertesURL.getOfferte(), offerteEnOffertesURL.getOffertesURL());
 //	}
 //}
+
+

@@ -2,8 +2,8 @@ package be.vdab.groenetenen.services;
 
 import java.util.Optional;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import be.vdab.groenetenen.entities.Offerte;
 import be.vdab.groenetenen.mail.MailSender;
 import be.vdab.groenetenen.messaging.OfferteEnOffertesURL;
+import be.vdab.groenetenen.messaging.RabbitMqConfig;
 import be.vdab.groenetenen.repositories.OfferteRepository;
 
 @Service
@@ -19,15 +20,18 @@ import be.vdab.groenetenen.repositories.OfferteRepository;
 class DefaultOfferteService implements OfferteService {
 	private final OfferteRepository offerteRepository;
 	private final MailSender mailSender;
-	private final JmsTemplate jmsTemplate;
+//	private final JmsTemplate jmsTemplate;
 	private final String nieuweOfferteQueue;
+	private final RabbitTemplate rabbitTemplate;
 
-	DefaultOfferteService(OfferteRepository offerteRepository, MailSender mailSender, JmsTemplate jmsTemplate,
+	DefaultOfferteService(OfferteRepository offerteRepository, MailSender mailSender, RabbitTemplate rabbitTemplate,
 			@Value("${nieuweOfferteQueue}") String nieuweOfferteQueue) {
 		this.offerteRepository = offerteRepository;
 		this.mailSender = mailSender;
-		this.jmsTemplate = jmsTemplate;
+//		this.jmsTemplate = jmsTemplate;
+		this.rabbitTemplate = rabbitTemplate;
 		this.nieuweOfferteQueue = nieuweOfferteQueue;
+
 	}
 
 	@Override
@@ -35,7 +39,8 @@ class DefaultOfferteService implements OfferteService {
 	public void create(Offerte offerte, String offertesURL) {
 		offerteRepository.save(offerte);
 		OfferteEnOffertesURL offerteEnOffertesURL = new OfferteEnOffertesURL(offerte, offertesURL);
-	jmsTemplate.convertAndSend(nieuweOfferteQueue, offerteEnOffertesURL);
+		rabbitTemplate.convertAndSend(RabbitMqConfig.QUEUE_OFFERTES, offerteEnOffertesURL);
+//		jmsTemplate.convertAndSend(nieuweOfferteQueue, offerteEnOffertesURL);
 
 	}
 
@@ -50,5 +55,4 @@ class DefaultOfferteService implements OfferteService {
 		mailSender.aantalOffertesMail(offerteRepository.count());
 
 	}
-
 }

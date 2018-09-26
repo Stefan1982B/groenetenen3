@@ -20,12 +20,20 @@ import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import be.vdab.groenetenen.adapters.LocalDateAdapter;
 
 @Entity
 @Table(name = "offertes")
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class Offerte implements Serializable {
+	public Offerte() {
+		
+	}
 	public interface Stap1 {
 	}
 
@@ -51,6 +59,7 @@ public class Offerte implements Serializable {
 	private Integer oppervlakte;
 	@DateTimeFormat(style = "S-")
 	@XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+	@JsonFormat(pattern = "dd::MM::yyyy")
 	private LocalDate aangemaakt = LocalDate.now();
 
 	public long getId() {
